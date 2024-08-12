@@ -35,8 +35,7 @@ async function signUpPost(req, res) {
         req.body.first_name,
         req.body.last_name,
         req.body.username,
-        hashedPassword,
-        true
+        hashedPassword
       );
       console.log("user inserted");
     });

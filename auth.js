@@ -1,16 +1,27 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const session = require("express-session");
 const bcryptjs = require("bcryptjs");
-const pool = require("./db/pool");
+
+const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
+const session = require("express-session");
+
 const db = require("./db/queries");
 require("dotenv").config();
+const prisma = require("./db/prisma");
 
 function sessionMiddleware() {
   return session({
+    cookie: {
+      maxAge: 7 * 24 * 60 * 60 * 1000, // ms
+    },
     secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
+    store: new PrismaSessionStore(prisma, {
+      checkPeriod: 2 * 60 * 1000, //ms
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined,
+    }),
   });
 }
 
@@ -18,11 +29,7 @@ function sessionMiddleware() {
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      const { rows } = await pool.query(
-        "SELECT * FROM users WHERE username = $1",
-        [username]
-      );
-      const user = rows[0];
+      const user = await db.getUsername(username);
 
       if (!user) {
         return done(null, false, { message: "Incorrect username" });
@@ -45,10 +52,9 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [
-      id,
-    ]);
-    const user = rows[0];
+    const user = await prisma.user.findUnique({
+      where: { id: id },
+    });
 
     done(null, user);
   } catch (err) {
@@ -63,7 +69,6 @@ function initializePassport() {
     passport.session(),
     async (req, res, next) => {
       res.locals.currentUser = req.user;
-      res.locals.currentMessages = await db.getMessages();
       next();
     },
   ];

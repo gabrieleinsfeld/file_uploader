@@ -15,10 +15,9 @@
     </ul>
     <% } %> <% if (currentUser) { %>
     <h1>
-      WELCOME BACK <%= currentUser.first_name %> <%= currentUser.last_name %>
+      WELCOME BACK <%= currentUser.firstName %> <%= currentUser.lastName %>
     </h1>
-    <%- include('messages_with_username', { user: currentUser, messages:
-    currentMessages }) %>
+
     <form action="/new-message" method="POST">
       <label for="title"
         >Message Title: <input type="text" name="title"
@@ -35,8 +34,7 @@
       <button type="submit">Submit</button>
     </form>
     <a href="/log-out">LOG OUT</a>
-    <% } else { %> <%- include('messages_anonymous', { messages: currentMessages
-    }) %>
+    <% } else { %>
     <a href="/log-in">Log in</a>
     <a href="/sign-up">Sign up Now!</a>
     <% } %>
