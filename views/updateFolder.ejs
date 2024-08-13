@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/form.css" />
+    <script
+      src="https://kit.fontawesome.com/3a76793a64.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <span id="title">New Title Form</span>
+      <div id="log-in-form">
+        <form action="/update/folder" method="POST">
+          <label for="newTitle"
+            ><i class="fa-solid fa-folder"></i
+            ><input type="text" placeholder="New Title" name="newTitle"
+          /></label>
+          <input type="hidden" name="title" value="<%= currentTitle %>" />
+          <button type="submit">Change Title</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

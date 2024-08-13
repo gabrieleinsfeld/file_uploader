@@ -19,7 +19,14 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 const mainRouter = require("./routes/mainRouter");
+const addRouter = require("./routes/addRouter");
+const deleteRouter = require("./routes/deleteRouter");
+const updateRouter = require("./routes/updateRouter");
 app.use("/", mainRouter);
+app.use("/add", addRouter);
+app.use("/delete", deleteRouter);
+app.use("/update", updateRouter);
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => console.log(`Express app listening on port ${PORT}!`));

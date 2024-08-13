@@ -3,40 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../form.css" />
+    <script
+      src="https://kit.fontawesome.com/3a76793a64.js"
+      crossorigin="anonymous"
+    ></script>
     <title>Document</title>
   </head>
   <body>
-    <% if (locals.errorr) { %>
-    <h1><%= title %></h1>
-    <ul>
-      <% errors.forEach(function(error) { %>
-      <li><%= error.msg %></li>
-      <% }); %>
-    </ul>
-    <% } %> <% if (currentUser) { %>
-    <h1>
-      WELCOME BACK <%= currentUser.firstName %> <%= currentUser.lastName %>
-    </h1>
-
-    <form action="/new-message" method="POST">
-      <label for="title"
-        >Message Title: <input type="text" name="title"
-      /></label>
-      <label for="message"
-        >New Message: <input type="text" name="message"
-      /></label>
-
-      <input
-        type="hidden"
-        name="username"
-        value="<%= currentUser.username %>"
-      />
-      <button type="submit">Submit</button>
-    </form>
-    <a href="/log-out">LOG OUT</a>
-    <% } else { %>
-    <a href="/log-in">Log in</a>
-    <a href="/sign-up">Sign up Now!</a>
-    <% } %>
+    <div class="container">
+      <span id="title">Login Form</span>
+      <div id="log-in-form">
+        <form action="/log-in" method="POST">
+          <label for="username"
+            ><i class="fa-solid fa-user"></i
+            ><input type="text" placeholder="Email" name="username"
+          /></label>
+          <label for="password"
+            ><i class="fa-solid fa-lock"></i>
+            <input type="text" placeholder="Password" name="password"
+          /></label>
+          <button type="submit">Log In</button>
+        </form>
+        <span>Not a member? <a href="/sign-up">Sign up Now!</a></span>
+      </div>
+    </div>
   </body>
 </html>

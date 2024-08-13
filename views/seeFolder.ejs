@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style.css" />
+    <title>Document</title>
+    <script
+      src="https://kit.fontawesome.com/3a76793a64.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <% if (currentUser) { %> <% if (currentUser.folders) { %>
+    <div class="nav-bar">
+      <h1>FOLDERS</h1>
+
+      <ul>
+        <% currentUser.folders.forEach(function(folder) { %>
+        <li>
+          <a href="/folder/<%= folder.title %>"><%= folder.title %></a>
+          <div>
+            <form action="/delete/folder" method="POST">
+              <input type="hidden" name="title" value="<%= folder.title %>" />
+              <button type="submit">
+                <i class="fas fa-trash"></i>
+              </button>
+            </form>
+            <form action="/update/folder/<%=folder.title%>" method="GET">
+              <button type="submit">
+                <i class="fas fa-edit"></i>
+              </button>
+            </form>
+          </div>
+        </li>
+        <% }); %>
+        <li id="add-folder">
+          <a href="/add/folder"><i class="fas fa-plus"></i></a>
+        </li>
+      </ul>
+      <% } %>
+      <div class="nav-bottom">
+        <a id="logout" href="/log-out">LOG OUT</a>
+      </div>
+    </div>
+    <div class="folder-view">
+      <div class="top-folder">
+        <h1>
+          WELCOME BACK <%= currentUser.firstName %> <%= currentUser.lastName %>
+        </h1>
+        <% if (folderTitle) { %>
+        <h1>Folder: <%=folderTitle%></h1>
+        <% }; %>
+      </div>
+      <div class="bottom-folder">
+        <% if (folderTitle) { %> <% let targetFolder =
+        currentUser.folders.find(folder => folder.title === folderTitle); %> <%
+        if (targetFolder) { %> <% targetFolder.files.forEach(function(file) { %>
+        <div class="img-container">
+          <div class="delete-img">
+            <form action="/delete/img" method="POST">
+              <input type="hidden" name="url" value="<%= file.url %>" />
+              <button type="submit">X</button>
+            </form>
+          </div>
+          <img src="<%= file.url %>" alt="" />
+        </div>
+        <% }); %> <% }; %> <% }; %> <% if (folderTitle) { %>
+        <div class="img-container">
+          <button id="uploadButton" class="upload-btn">+</button>
+        </div>
+        <% }; %>
+      </div>
+      <form
+        id="fileUploadForm"
+        action="/add/file"
+        method="post"
+        enctype="multipart/form-data"
+        style="display: none"
+      >
+        <label for="file"
+          ><input class="add-file" id="fileInput" type="file" name="newFile"
+        /></label>
+        <input type="hidden" name="folderTitle" value="<%= folderTitle %>" />
+        <button type="submit">Add File</button>
+      </form>
+    </div>
+    <% } else { %>
+    <a href="/log-in">Log in</a>
+    <a href="/sign-up">Sign up Now!</a>
+    <% } %>
+    <script>
+      document
+        .getElementById("uploadButton")
+        .addEventListener("click", function () {
+          document.getElementById("fileInput").click();
+        });
+
+      document
+        .getElementById("fileInput")
+        .addEventListener("change", function () {
+          document.getElementById("fileUploadForm").submit();
+        });
+    </script>
+  </body>
+</html>

@@ -21,4 +21,69 @@ async function getUsername(username) {
   });
   return user;
 }
-module.exports = { getUsername, insertUser };
+
+async function createFolder(title, username) {
+  await prisma.folder.create({
+    data: {
+      title: title,
+      authorId: username,
+    },
+  });
+}
+
+async function getFoldersByUsername(username) {
+  const folders = await prisma.user.findUnique({
+    where: { email: username },
+    include: { folders: true }, // Include the related folders
+  });
+  console.log(folders);
+  return folders.folders;
+}
+
+async function deleteFolder(title) {
+  await prisma.folder.delete({
+    where: { title: title },
+  });
+}
+async function updateFolder(title, newtitle) {
+  try {
+    // Update the record where the title matches the given value
+    await prisma.folder.update({
+      where: { title: title }, // Specify the unique identifier
+      data: { title: newtitle }, // Provide the new data for the update
+    });
+  } catch (error) {
+    console.error("Error updating record:", error);
+  }
+}
+
+async function createFile(url, title) {
+  try {
+    const file = await prisma.file.create({
+      data: {
+        url: url,
+        folderTitle: title,
+      },
+    });
+    console.log(file);
+  } catch (error) {
+    console.log("Error creating file:", error);
+  }
+}
+
+async function deleteImg(url) {
+  await prisma.file.deleteMany({
+    where: { url: url },
+  });
+}
+
+module.exports = {
+  getUsername,
+  insertUser,
+  createFolder,
+  getFoldersByUsername,
+  deleteFolder,
+  updateFolder,
+  createFile,
+  deleteImg,
+};

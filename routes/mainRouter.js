@@ -5,18 +5,22 @@ const passport = require("passport");
 
 // Render the login page
 
-mainRouter.get("/", (req, res) => {
-  res.render("index");
+mainRouter.get("/folder", (req, res) => {
+  res.render("seeFolder", { folderTitle: undefined });
 });
 mainRouter.get("/log-in", (req, res) => {
-  res.render("log-in");
+  res.render("index");
+});
+
+mainRouter.get("/", (req, res) => {
+  res.render("index");
 });
 
 // Handle login form submission
 mainRouter.post(
   "/log-in",
   passport.authenticate("local", {
-    successRedirect: "/",
+    successRedirect: "/folder",
     failureRedirect: "/log-in",
   })
 );
@@ -26,11 +30,14 @@ mainRouter.get("/log-out", (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.redirect("/");
+    res.redirect("/log-in");
   });
 });
 
 mainRouter.get("/sign-up", usersController.signUpGet);
 mainRouter.post("/sign-up", usersController.signUpPost);
+mainRouter.get("/folder/:folderTitle", (req, res) => {
+  res.render("seeFolder", { folderTitle: req.params.folderTitle });
+});
 
 module.exports = mainRouter;

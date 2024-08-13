@@ -20,7 +20,7 @@ const validateUser = [
 async function signUpPost(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).render("log-in", {
+    return res.status(400).render("index", {
       title: "Failed to update Youtuber:",
       errors: errors.array(),
     });
@@ -29,7 +29,7 @@ async function signUpPost(req, res) {
   if (req.body.password === req.body.confirmed_password) {
     bcryptjs.hash(req.body.password, 10, async (err, hashedPassword) => {
       if (err) {
-        res.redirect("index", { errors: [{ error: err }] });
+        res.render("index", { errors: [{ error: err }] });
       }
       await db.insertUser(
         req.body.first_name,
@@ -39,7 +39,7 @@ async function signUpPost(req, res) {
       );
       console.log("user inserted");
     });
-    res.render("log-in");
+    res.render("index");
   } else {
     res.render("signUp", {
       title: "Failed to update Youtuber:",
@@ -53,7 +53,7 @@ function signUpGet(req, res) {
 }
 
 function mainGet(req, res) {
-  res.render("index");
+  res.render("seeFolders");
 }
 
 module.exports = {

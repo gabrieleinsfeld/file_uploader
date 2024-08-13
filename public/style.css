@@ -1,0 +1,159 @@
+:root {
+  --color1: #4d4d4d; /* RGB: (77,77,77) */
+  --color2: #3c3c3c; /* RGB: (60,60,60) */
+  --color3: #1e1e1e; /* RGB: (30,30,30) */
+  --color4: #111111; /* RGB: (17,17,17) */
+  --color5: #000000; /* RGB: (0,0,0) */
+  --color6: #eeeeee;
+  --color7: #5c5470;
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+}
+
+h1 {
+  margin: 0px;
+}
+.nav-bar {
+  box-sizing: border-box;
+  background-color: var(--color4);
+  color: var(--color6);
+  width: 220px;
+  padding: 10px;
+  border-radius: 0px 10px 10px 0px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Keeps navbar on top */
+}
+.nav-bar ul {
+  margin: 0px;
+  padding: 0px;
+  flex-grow: 1; /* Allows this section to take all the available space */
+  overflow-y: auto;
+}
+
+.nav-bar li {
+  list-style: none;
+  display: flex;
+  padding: 15px 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.nav-bar li:hover {
+  background-color: var(--color2);
+}
+
+.nav-bar li div {
+  display: flex;
+  gap: 5px;
+}
+
+.nav-bar a {
+  text-decoration: none;
+  color: var(--color6);
+}
+
+.nav-bottom {
+  display: flex;
+  padding-top: 10px;
+  margin-top: auto;
+  border-top: #eeeeee solid 1px;
+}
+
+.folder-view {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 240px;
+}
+
+.bottom-folder {
+  margin-bottom: 10px;
+  padding-right: 20px;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+}
+
+.delete-img {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 10px;
+}
+
+.delete-img button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  border: none;
+  border-radius: 20px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.img-container {
+  box-shadow: 0px 2px 4px rgb(0, 0, 0.2);
+  padding: 5px;
+  min-height: 300px;
+}
+.upload-btn {
+  width: 100%;
+  height: 100%;
+  font-size: 86px;
+}
+
+.bottom-folder img {
+  width: 100%;
+}
+
+.add-file {
+  margin-top: auto;
+}
+
+button {
+  cursor: pointer;
+}
+
+#add-folder {
+  justify-content: center;
+}
+
+#logout {
+  padding: 15px 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+#logout:hover {
+  background-color: var(--color2);
+}
+
+/* Styles for viewports up to 1000px */
+@media (max-width: 1000px) {
+  .bottom-folder {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Styles for viewports up to 600px */
+@media (max-width: 700px) {
+  .bottom-folder {
+    grid-template-columns: 1fr;
+  }
+}

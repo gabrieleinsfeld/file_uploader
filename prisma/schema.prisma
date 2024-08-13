@@ -31,6 +31,15 @@ model User {
 
 model Folder {
   id       String @id @default(uuid())
-  author   User   @relation(fields: [authorId], references: [id])
+  title    String @unique
+  author   User   @relation(fields: [authorId], references: [email])
   authorId String 
+  files    File[]  // A folder can have many files
+}
+
+model File {
+  id          String  @id @default(uuid())
+  url        String
+  folder      Folder  @relation(fields: [folderTitle], references: [title])
+  folderTitle String
 }
